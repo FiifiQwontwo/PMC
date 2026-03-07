@@ -124,11 +124,8 @@ class AdminRegistrationView(APIView):
                         Hello,
 
                         Your admin account has been created successfully.
-
                         Email: {user.email}
-
                         You can now log in to the admin portal.
-
                         Regards,
                         Bluespace Africa Team
                         """
