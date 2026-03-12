@@ -19,11 +19,12 @@ schema_view = get_schema_view(
     permission_classes=[permissions.AllowAny],
 )
 
+url_base = 'api/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path(url_base + '/additional_cost/', include('additional_cost.urls')),
+    path(url_base + 'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
