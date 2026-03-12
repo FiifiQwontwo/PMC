@@ -85,7 +85,7 @@ class AdminInvite(models.Model):
     email = models.EmailField(unique=True)
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     invited_by = models.ForeignKey(
-        'accounts.CustomUser',
+        'CustomUser',
         on_delete=models.CASCADE,
         related_name='admin_invites'
     )

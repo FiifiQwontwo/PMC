@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser
+from .models import CustomUser, AdminInvite
 from .models import Staff, Admin
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -112,5 +112,21 @@ class LoginSerializer(serializers.Serializer):
             "refresh": str(refresh),
             "access": str(refresh.access_token),
         }
+
+
+class AdminInviteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AdminInvite
+        fields = ['email']
+
+    def create(self, validated_data):
+        request = self.context['request']
+
+        invite = AdminInvite.objects.create(
+            email=validated_data['email'],
+            invited_by=request.user
+        )
+
+        return invite
 
 
