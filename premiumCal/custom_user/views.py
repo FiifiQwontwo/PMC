@@ -11,6 +11,8 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 import jwt
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class LoginView(APIView):
@@ -81,8 +83,8 @@ class LogoutView(APIView):
         return Response({'msg': 'Successfully Logged out'}, status=status.HTTP_200_OK)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class AdminRegistrationView(APIView):
-    permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
         operation_description="Create a Admin User",
@@ -157,3 +159,5 @@ class AdminRegistrationView(APIView):
                 "success": False,
                 "errors": serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
+
