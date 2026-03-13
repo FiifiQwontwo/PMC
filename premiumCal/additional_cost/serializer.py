@@ -19,6 +19,7 @@ class CreateAdditional_costSerializer(serializers.ModelSerializer):
         brown_card_charge = self.validated_data.get('brown_card_charge')
         nic_contribution_charge = self.validated_data.get('nic_contribution_charge')
         sticker_charge = self.validated_data.get('sticker_charge')
+        age_loading_percentage = self.validated_data.get('age_loading_percentage')
         age_loading_charge = self.validated_data.get('age_loading_charge')
         educational_fee = self.validated_data.get('educational_fee')
         gia_levy = self.validated_data.get('gia_levy')
@@ -28,6 +29,7 @@ class CreateAdditional_costSerializer(serializers.ModelSerializer):
             nic_contribution_charge=nic_contribution_charge,
             sticker_charge=sticker_charge,
             age_loading_charge=age_loading_charge,
+            age_loading_percentage=age_loading_percentage,
             educational_fee=educational_fee,
             gia_levy=gia_levy
         )
