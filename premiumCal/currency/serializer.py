@@ -10,10 +10,12 @@ class List_Currency_Rate_Serializer(serializers.ModelSerializer):
 
 
 class Create_Currency_RateSerializer(serializers.ModelSerializer):
+    created_by = serializers.ReadOnlyField(source='created_by.email')
+
     class Meta:
         model = Currency_Rate
         fields = ('currency_name', 'currency_rate', 'currency_shortrate_charge',
-                  'currency_symbol')
+                  'currency_symbol', 'created_by')
 
     def save(self, **kwargs):
         currency_name = self.validated_data.get('currency_name')

@@ -24,6 +24,7 @@ url_base = 'api/'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/additional_cost/', include('additional_cost.urls')),
+    path('currency/', include('currency.urls')),
     path('account/', include('custom_user.urls')),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
