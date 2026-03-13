@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'custom_user',
     'additional_cost',
+    'currency',
 ]
 
 MIDDLEWARE = [
