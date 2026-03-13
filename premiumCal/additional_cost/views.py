@@ -134,15 +134,18 @@ class CreateAdditional_costView(APIView):
 
             if serializer.is_valid():
                 additional_cost = serializer.save()
-                messages.success(request, "Additional Cost Create successfully")
+
+                messages.success(request, "Additional Cost created successfully")
 
                 if request.accepted_renderer.format == 'html':
                     return redirect('additional_cost:list_additional_cost_endpoint')
 
+                response_serializer = CreateAdditional_costSerializer(additional_cost)
+
                 return Response({
                     'success': True,
                     'message': 'Additional cost created successfully.',
-                    'data': additional_cost.data
+                    'data': response_serializer.data
                 }, status=status.HTTP_201_CREATED)
 
             if request.accepted_renderer.format == 'html':
@@ -157,20 +160,11 @@ class CreateAdditional_costView(APIView):
                 'message': 'Failed to create Additional cost.',
                 'errors': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
+
         except Exception as e:
             return Response({
                 'success': False,
                 'message': 'Unexpected error during Additional Cost creation.',
-                'error': str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    def get(self, request):
-        try:
-            return render(request, self.template_name)
-        except Exception as e:
-            return Response({
-                'success': False,
-                'message': 'Error loading creation form.',
                 'error': str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

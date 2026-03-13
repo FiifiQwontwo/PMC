@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
 from .models import AdminInvite
 from .serializer import LoginSerializer, AdminUserRegistrationSerializer, AdminInviteSerializer
 from drf_yasg import openapi
@@ -17,6 +16,11 @@ import jwt
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class CsrfExemptAPIView(APIView):
+    authentication_classes = []
 
 
 class LoginView(APIView):
@@ -87,9 +91,7 @@ class LogoutView(APIView):
         return Response({'msg': 'Successfully Logged out'}, status=status.HTTP_200_OK)
 
 
-@method_decorator(csrf_exempt, name='dispatch')
-class AdminRegistrationView(APIView):
-    authentication_classes = []
+class AdminRegistrationView(CsrfExemptAPIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
@@ -118,7 +120,7 @@ class AdminRegistrationView(APIView):
             user = serializer.save()
             refresh = RefreshToken.for_user(user)
 
-            subject = "Welcome to Bluespace Africa Admin Portal"
+            subject = "Welcome to Premium Calculation Africa Admin Portal"
             message = f"""
 Hello,
 
@@ -161,7 +163,6 @@ Bluespace Africa Team
 
 
 class SendAdminInviteView(APIView):
-
     permission_classes = [IsAdminUser]
 
     @swagger_auto_schema(
@@ -207,9 +208,7 @@ This invitation expires in 48 hours.
 
 
 class AdminRegisterWithInviteView(APIView):
-    """
-    Complete registration via invite link.
-    """
+
     permission_classes = [AllowAny]
 
     def post(self, request, token):
@@ -224,13 +223,13 @@ class AdminRegisterWithInviteView(APIView):
         if invite.expires_at < timezone.now():
             return Response({"error": "Invite expired"}, status=400)
 
-        # Ensure only the invited email can register
+
         if request.data.get("email") != invite.email:
             return Response({
                 "error": "This invite is only valid for the invited email."
             }, status=400)
 
-        # Prevent duplicate admin accounts
+
         if CustomUser.objects.filter(email=invite.email).exists():
             return Response({
                 "error": "Admin account already exists."

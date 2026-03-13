@@ -23,9 +23,9 @@ url_base = 'api/'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(url_base + '/additional_cost/', include('additional_cost.urls')),
-    path(url_base + '/account/', include('custom_user.urls')),
-    path(url_base + 'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/additional_cost/', include('additional_cost.urls')),
+    path('account/', include('custom_user.urls')),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

@@ -8,7 +8,7 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout_endpoint'),
     path('admin/', AdminRegistrationView.as_view(), name='admin_user_endpoint'),
      path(
-        'admin/invite/',
+        'invite/',
         SendAdminInviteView.as_view(),
         name='send_admin_invite'
     ),
